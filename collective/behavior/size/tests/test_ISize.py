@@ -1,12 +1,12 @@
 import unittest
 
 
-class TestIStock(unittest.TestCase):
+class TestISize(unittest.TestCase):
 
     def test_subclass(self):
-        from collective.behavior.stock.interfaces import IStock
+        from collective.behavior.size.interfaces import ISize
         from zope.interface import Interface
-        self.assertTrue(issubclass(IStock, Interface))
+        self.assertTrue(issubclass(ISize, Interface))
 
     def get_schema(self, name):
         """Get schema by name.
@@ -14,66 +14,102 @@ class TestIStock(unittest.TestCase):
         :param name: Name of schema.
         :type name: str
         """
-        from collective.behavior.stock.interfaces import IStock
-        return IStock.get(name)
+        from collective.behavior.size.interfaces import ISize
+        return ISize.get(name)
 
-    # def test_unlimited__instance(self):
-    #     schema = self.get_schema('unlimited')
-    #     from zope.schema import Bool
-    #     self.assertIsInstance(schema, Bool)
+    def test_weight__instance(self):
+        schema = self.get_schema('weight')
+        from zope.schema import Float
+        self.assertIsInstance(schema, Float)
 
-    # def test_unlimited__title(self):
-    #     schema = self.get_schema('unlimited')
-    #     self.assertEqual(schema.title, u'Unlimited Stock')
+    def test_weight__title(self):
+        schema = self.get_schema('weight')
+        self.assertEqual(schema.title, u'Weight')
 
-    # def test_unlimited__description(self):
-    #     schema = self.get_schema('unlimited')
-    #     self.assertEqual(
-    #         schema.description, u'Check if you do not need to worry about stock ie practically unlimited stock.')
-
-    # def test_unlimited__default(self):
-    #     schema = self.get_schema('unlimited')
-    #     self.assertFalse(schema.default)
-
-    # def test_stock__instance(self):
-    #     schema = self.get_schema('stock')
-    #     from zope.schema import Int
-    #     self.assertIsInstance(schema, Int)
-
-    # def test_stock__title(self):
-    #     schema = self.get_schema('stock')
-    #     self.assertEqual(schema.title, u'Stock')
-
-    # def test_stock__default(self):
-    #     schema = self.get_schema('stock')
-    #     self.assertEqual(
-    #         schema.default, 0)
-
-    # def test_stock__min(self):
-    #     schema = self.get_schema('stock')
-    #     self.assertEqual(
-    #         schema.min, 0)
-
-    def test_reducible_quantity__instance(self):
-        schema = self.get_schema('reducible_quantity')
-        from zope.schema import Int
-        self.assertIsInstance(schema, Int)
-
-    def test_reducible_quantity__title(self):
-        schema = self.get_schema('reducible_quantity')
-        self.assertEqual(schema.title, u'Maximum Reducible Quantity')
-
-    def test_reducible_quantity__description(self):
-        schema = self.get_schema('reducible_quantity')
+    def test_weight__description(self):
+        schema = self.get_schema('weight')
         self.assertEqual(
-            schema.description, u'The maximum quantity to be reduced at once.')
+            schema.description, u'Weight in gram.')
 
-    def test_reducible_quantity__default(self):
-        schema = self.get_schema('reducible_quantity')
-        self.assertEqual(
-            schema.default, 100)
+    def test_weight__min(self):
+        schema = self.get_schema('weight')
+        self.assertEqual(schema.min, 0.0)
 
-    def test_reducible_quantity__min(self):
-        schema = self.get_schema('reducible_quantity')
+    def test_weight__required(self):
+        schema = self.get_schema('weight')
+        self.assertTrue(schema.required)
+
+    def test_width__instance(self):
+        schema = self.get_schema('width')
+        from zope.schema import Float
+        self.assertIsInstance(schema, Float)
+
+    def test_width__title(self):
+        schema = self.get_schema('width')
+        self.assertEqual(schema.title, u'Weight')
+
+    def test_width__description(self):
+        schema = self.get_schema('width')
         self.assertEqual(
-            schema.min, 1)
+            schema.description, u'Width in centimeter.')
+
+    def test_width__min(self):
+        schema = self.get_schema('width')
+        self.assertEqual(schema.min, 0.0)
+
+    def test_width__required(self):
+        schema = self.get_schema('width')
+        self.assertFalse(schema.required)
+
+    def test_height__instance(self):
+        schema = self.get_schema('height')
+        from zope.schema import Float
+        self.assertIsInstance(schema, Float)
+
+    def test_height__title(self):
+        schema = self.get_schema('height')
+        self.assertEqual(schema.title, u'Height')
+
+    def test_height__description(self):
+        schema = self.get_schema('height')
+        self.assertEqual(
+            schema.description, u'Height in centimeter.')
+
+    def test_height__min(self):
+        schema = self.get_schema('height')
+        self.assertEqual(schema.min, 0.0)
+
+    def test_height__required(self):
+        schema = self.get_schema('height')
+        self.assertFalse(schema.required)
+
+    def test_depth__instance(self):
+        schema = self.get_schema('depth')
+        from zope.schema import Float
+        self.assertIsInstance(schema, Float)
+
+    def test_depth__title(self):
+        schema = self.get_schema('depth')
+        self.assertEqual(schema.title, u'Depth')
+
+    def test_depth__description(self):
+        schema = self.get_schema('depth')
+        self.assertEqual(
+            schema.description, u'Depth in centimeter.')
+
+    def test_depth__min(self):
+        schema = self.get_schema('depth')
+        self.assertEqual(schema.min, 0.0)
+
+    def test_depth__required(self):
+        schema = self.get_schema('depth')
+        self.assertFalse(schema.required)
+
+    def test_dimension__instance(self):
+        from zope.interface import Attribute
+        schema = self.get_schema('dimension')
+        self.assertIsInstance(schema, Attribute)
+
+    def test_dimension__doc(self):
+        schema = self.get_schema('dimension')
+        self.assertEqual(schema.getDoc(), 'Dimemsion in the cube of meter.')

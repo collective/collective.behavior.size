@@ -1,99 +1,112 @@
-from Products.CMFCore.utils import getToolByName
-from collective.behavior.stock.interfaces import IStock
-from collective.cart.stock.interfaces import IStock as IStockContent
+from collective.behavior.size.interfaces import ISize
 from plone.directives import form
 from rwproperty import getproperty
 from rwproperty import setproperty
 from zope.interface import alsoProvides
 from zope.interface import implements
-from zope.lifecycleevent import modified
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-alsoProvides(IStock, form.IFormFieldProvider)
+alsoProvides(ISize, form.IFormFieldProvider)
 
 
-class Stock(object):
+class Size(object):
     """
     """
-    implements(IStock)
+    implements(ISize)
 
     def __init__(self, context):
         self.context = context
 
     @getproperty
-    def reducible_quantity(self):
-        return getattr(self.context, 'reducible_quantity', 0)
+    def weight(self):
+        return getattr(self.context, 'weight', 0.0)
 
     @setproperty
-    def reducible_quantity(self, value):
-        """Setting reducible_quantity as Integer
+    def weight(self, value):
+        """Setting weight
 
-        :param value: Stock value such as 10.
-        :type value: int
+        :param value: Weight in gram.
+        :type value: float
         """
-        if isinstance(value, int):
-            # Set reducible_quantity
-            setattr(self.context, 'reducible_quantity', value)
+        if isinstance(value, float):
+            # Set weight
+            setattr(self.context, 'weight', value)
         else:
-            raise ValueError('Not Integer')
+            raise ValueError('Not Float')
 
-    def _query(self, sort_order='ascending'):
-        return {
-            'path': {
-                'query': '/'.join(self.context.getPhysicalPath()),
-                'depth': 1,
-            },
-            'object_provides': IStockContent.__identifier__,
-            'sort_on': 'created',
-            'sort_order': sort_order,
-        }
+    @getproperty
+    def width(self):
+        return getattr(self.context, 'width', 0.0)
+
+    @setproperty
+    def width(self, value):
+        """Setting width
+
+        :param value: Weight in gram.
+        :type value: float
+        """
+        if isinstance(value, float):
+            # Set width
+            setattr(self.context, 'width', value)
+        else:
+            raise ValueError('Not Float')
+
+    @getproperty
+    def height(self):
+        return getattr(self.context, 'height', 0.0)
+
+    @setproperty
+    def height(self, value):
+        """Setting height
+
+        :param value: Weight in gram.
+        :type value: float
+        """
+        if isinstance(value, float):
+            # Set height
+            setattr(self.context, 'height', value)
+        else:
+            raise ValueError('Not Float')
+
+    @getproperty
+    def depth(self):
+        return getattr(self.context, 'depth', 0.0)
+
+    @setproperty
+    def depth(self, value):
+        """Setting depth
+
+        :param value: Weight in gram.
+        :type value: float
+        """
+        if isinstance(value, float):
+            # Set depth
+            setattr(self.context, 'depth', value)
+        else:
+            raise ValueError('Not Float')
 
     @property
-    def stock(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        return sum([brain.stock for brain in catalog(self._query())])
+    def dimension(self):
+        """Dimemsion in the cube of meter.
 
-    def sub_stock(self, value):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        brains = [brain for brain in catalog(self._query()) if brain.stock > 0]
-        if brains and sum([brain.stock for brain in brains]) >= value:
-            for brain in brains:
-                obj = brain.getObject()
-                if obj.stock >= value:
-                    obj.stock -= value
-                    modified(obj)
-                    break
-                else:
-                    value -= obj.stock
-                    obj.stock = 0
-                    modified(obj)
-            return self.stock
-        else:
-            raise ValueError('Not possible to reduce more than zero.')
+        :rtype: float
+        """
+        return self.width * self.height * self.depth / 10.0 ** 6
 
-    def add_stock(self, value):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        brains = catalog(self._query(sort_order='descending'))
-        stock = sum([brain.stock for brain in brains])
-        max_stock = sum([brain.initial_stock for brain in brains])
-        if brains and value <= max_stock - stock:
-            if len(brains) > 1:
-                if brains[0].created < brains[1].created:
-                    brains = reversed([brain for brain in brains])
-            for brain in brains:
-                obj = brain.getObject()
-                if obj.initial_stock - obj.stock >= value:
-                    obj.stock += value
-                    modified(obj)
-                    break
-                else:
-                    value -= (obj.initial_stock - obj.stock)
-                    obj.stock = obj.initial_stock
-                    modified(obj)
-            return self.stock
-        else:
-            message = 'Not possible to add more than max stock: {}.'.format(max_stock)
-            raise ValueError(message)
+    def calculated_weight(self, rate=None):
+        """Returns calculated weight based on rate in kg.
+
+        :param rate: kg / m **3
+        :param type: float
+
+        :rtype: float
+        """
+        weight_in_kg = self.weight / 1000.0
+        if rate and isinstance(rate, float) and rate > 0.0:
+            dimension_weight = self.dimension * rate
+            if dimension_weight > weight_in_kg:
+                return dimension_weight
+        return weight_in_kg

@@ -3,7 +3,6 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-
 import unittest
 
 
@@ -16,7 +15,6 @@ class BehaviorSizeLayer(PloneSandboxLayer):
         # Load ZCML
         import collective.behavior.size
         self.loadZCML(package=collective.behavior.size)
-
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""

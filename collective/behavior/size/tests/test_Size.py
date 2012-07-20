@@ -1,211 +1,137 @@
-# -*- coding: utf-8 -*-
-from collective.behavior.stock.tests.base import IntegrationTestCase
+import mock
+import unittest
 
 
-class TestStock(IntegrationTestCase):
-
-    def setUp(self):
-        self.portal = self.layer['portal']
+class TestSize(unittest.TestCase):
 
     def test_subclass(self):
-        from collective.behavior.stock.behavior import Stock
-        self.assertTrue(issubclass(Stock, object))
+        from collective.behavior.size.behavior import Size
+        self.assertTrue(issubclass(Size, object))
 
-    def create_folder(self):
-        from plone.dexterity.utils import createContentInContainer
-        from zope.lifecycleevent import modified
-        folder = createContentInContainer(
-            self.portal, 'collective.behavior.stock.Folder', id='folder',
-            checkConstraints=False, title='Földer', description='Description of Földer.')
-        modified(folder)
-        return folder
-
-    def create_instance(self, folder=None):
-        from collective.behavior.stock.interfaces import IStock
-        if folder is None:
-            folder = self.create_folder()
-        return IStock(folder)
+    def create_instance(self, context=mock.Mock()):
+        from collective.behavior.size.behavior import Size
+        return Size(context)
 
     def test_instance(self):
-        from collective.behavior.stock.behavior import Stock
         instance = self.create_instance()
-        self.assertIsInstance(instance, Stock)
+        from collective.behavior.size.behavior import Size
+        self.assertIsInstance(instance, Size)
 
-    def test_instance_provides_IStock(self):
+    def test_instance_provides_ISize(self):
         instance = self.create_instance()
-        from collective.behavior.stock.interfaces import IStock
-        self.assertTrue(IStock.providedBy(instance))
+        from collective.behavior.size.interfaces import ISize
+        self.assertTrue(ISize.providedBy(instance))
 
     def test_instance__verifyObject(self):
         instance = self.create_instance()
-        from collective.behavior.stock.interfaces import IStock
+        instance.context.width = 0.0
+        instance.context.height = 0.0
+        instance.context.depth = 0.0
+        from collective.behavior.size.interfaces import ISize
         from zope.interface.verify import verifyObject
-        self.assertTrue(verifyObject(IStock, instance))
+        self.assertTrue(verifyObject(ISize, instance))
 
-    def test_instance__context(self):
-        from plone.dexterity.content import Container
+    def test_weight(self):
         instance = self.create_instance()
-        self.assertIsInstance(instance.context, Container)
+        instance.context.weight = 2.0
+        self.assertEqual(instance.weight, 2.0)
 
-    def test_instance__reducible_quantity_empty(self):
-        """First time access to reducible_quantity"""
+    def test_weight_set(self):
         instance = self.create_instance()
-        self.assertEqual(instance.reducible_quantity, 0)
+        instance.weight = 2.0
+        self.assertEqual(instance.context.weight, 2.0)
 
-    def set_reducible_quantity(self, instance, reducible_quantity):
-        """Setting reducible_quantity to instance."""
-        instance.reducible_quantity = reducible_quantity
-
-    def test_instance__reducible_quantity__ValueError(self):
-        """Raise ValueError when setting other than integer."""
+    def test_weight_set_ValueError(self):
         instance = self.create_instance()
         with self.assertRaises(ValueError):
-            instance.reducible_quantity = 'AAA'
+            instance.weight = 'AAA'
 
-    def test_instance__reducible_quantity__set(self):
+    def test_width(self):
         instance = self.create_instance()
-        reducible_quantity = 5
-        instance.reducible_quantity = reducible_quantity
-        self.assertEqual(instance.context.reducible_quantity, reducible_quantity)
+        instance.context.width = 2.0
+        self.assertEqual(instance.width, 2.0)
 
-    def test__query(self):
+    def test_width_set(self):
         instance = self.create_instance()
-        self.assertEqual(instance._query(), {
-            'path': {
-                'query': '/plone/folder',
-                'depth': 1,
-            },
-            'object_provides': 'collective.cart.stock.interfaces.IStock',
-            'sort_on': 'created',
-            'sort_order': 'ascending',
-        })
+        instance.width = 2.0
+        self.assertEqual(instance.context.width, 2.0)
 
-    def test__query_descending(self):
-        instance = self.create_instance()
-        self.assertEqual(instance._query(sort_order='descending'), {
-            'path': {
-                'query': '/plone/folder',
-                'depth': 1,
-            },
-            'object_provides': 'collective.cart.stock.interfaces.IStock',
-            'sort_on': 'created',
-            'sort_order': 'descending',
-        })
-
-    def test_stock__empty(self):
-        instance = self.create_instance()
-        self.assertEqual(instance.stock, 0)
-
-    def create_stock(self, folder, oid, stock):
-        from plone.dexterity.utils import createContentInContainer
-        from zope.lifecycleevent import modified
-        obj = createContentInContainer(
-            folder, 'collective.cart.stock.Stock', id=oid, stock=stock)
-        modified(obj)
-        obj.reindexObject()
-        return obj
-
-    def test_instance__one_stock(self):
-        folder = self.create_folder()
-        self.create_stock(folder, 'stock1', 100)
-        instance = self.create_instance(folder=folder)
-        self.assertEqual(instance.stock, 100)
-
-    def test_instance__two_stocks(self):
-        folder = self.create_folder()
-        self.create_stock(folder, 'stock1', 100)
-        self.create_stock(folder, 'stock2', 50)
-        instance = self.create_instance(folder=folder)
-        self.assertEqual(instance.stock, 150)
-
-    def test_sub_stock__ValueError(self):
+    def test_width_set_ValueError(self):
         instance = self.create_instance()
         with self.assertRaises(ValueError):
-            instance.sub_stock(3)
+            instance.width = 'AAA'
 
-    def test_sub_stock_one_stock(self):
-        folder = self.create_folder()
-        stock1 = self.create_stock(folder, 'stock1', 100)
-        instance = self.create_instance(folder=folder)
-        self.assertEqual(instance.sub_stock(20), 80)
-        self.assertEqual(stock1.stock, 80)
+    def test_height(self):
+        instance = self.create_instance()
+        instance.context.height = 2.0
+        self.assertEqual(instance.height, 2.0)
 
-    def test_sub_stock_multiple_stock(self):
-        folder = self.create_folder()
-        stock1 = self.create_stock(folder, 'stock1', 100)
-        stock3 = self.create_stock(folder, 'stock3', 50)
-        stock2 = self.create_stock(folder, 'stock2', 10)
-        instance = self.create_instance(folder=folder)
-        self.assertEqual(instance.sub_stock(20), 140)
-        self.assertEqual(stock1.stock, 80)
-        self.assertEqual(stock3.stock, 50)
-        self.assertEqual(stock2.stock, 10)
-        self.assertEqual(instance.sub_stock(90), 50)
-        self.assertEqual(stock1.stock, 0)
-        self.assertEqual(stock3.stock, 40)
-        self.assertEqual(stock2.stock, 10)
-        self.assertEqual(instance.sub_stock(30), 20)
-        self.assertEqual(stock1.stock, 0)
-        self.assertEqual(stock3.stock, 10)
-        self.assertEqual(stock2.stock, 10)
-        self.assertEqual(instance.sub_stock(15), 5)
-        self.assertEqual(stock1.stock, 0)
-        self.assertEqual(stock3.stock, 0)
-        self.assertEqual(stock2.stock, 5)
-        with self.assertRaises(ValueError):
-            instance.sub_stock(20)
+    def test_height_set(self):
+        instance = self.create_instance()
+        instance.height = 2.0
+        self.assertEqual(instance.context.height, 2.0)
 
-    def test_add_stock_ValueError(self):
+    def test_height_set_ValueError(self):
         instance = self.create_instance()
         with self.assertRaises(ValueError):
-            instance.add_stock(3)
+            instance.height = 'AAA'
 
-    def test_add_stock_one_stock(self):
-        from zope.lifecycleevent import modified
-        folder = self.create_folder()
-        stock1 = self.create_stock(folder, 'stock1', 100)
-        instance = self.create_instance(folder=folder)
-        with self.assertRaises(ValueError):
-            instance.add_stock(3)
-        stock1.stock = 20
-        modified(stock1)
-        self.assertEqual(instance.add_stock(20), 40)
-        self.assertEqual(stock1.stock, 40)
-        with self.assertRaises(ValueError):
-            instance.add_stock(100)
-        self.assertEqual(stock1.stock, 40)
-        self.assertEqual(instance.add_stock(60), 100)
-        self.assertEqual(stock1.stock, 100)
+    def test_depth(self):
+        instance = self.create_instance()
+        instance.context.depth = 2.0
+        self.assertEqual(instance.depth, 2.0)
 
-    def test_add_stock_multiple_stock(self):
-        from zope.lifecycleevent import modified
-        folder = self.create_folder()
-        stock1 = self.create_stock(folder, 'stock1', 100)
-        stock3 = self.create_stock(folder, 'stock3', 50)
-        stock2 = self.create_stock(folder, 'stock2', 10)
-        instance = self.create_instance(folder=folder)
+    def test_depth_set(self):
+        instance = self.create_instance()
+        instance.depth = 2.0
+        self.assertEqual(instance.context.depth, 2.0)
+
+    def test_depth_set_ValueError(self):
+        instance = self.create_instance()
         with self.assertRaises(ValueError):
-            instance.add_stock(3)
-        stock1.stock = 20
-        modified(stock1)
-        stock3.stock = 10
-        modified(stock3)
-        stock2.stock = 5
-        modified(stock2)
-        self.assertEqual(instance.add_stock(2), 37)
-        self.assertEqual(stock1.stock, 20)
-        self.assertEqual(stock3.stock, 10)
-        self.assertEqual(stock2.stock, 7)
-        self.assertEqual(instance.add_stock(13), 50)
-        self.assertEqual(stock1.stock, 20)
-        self.assertEqual(stock3.stock, 20)
-        self.assertEqual(stock2.stock, 10)
-        self.assertEqual(instance.add_stock(40), 90)
-        self.assertEqual(stock1.stock, 30)
-        self.assertEqual(stock3.stock, 50)
-        self.assertEqual(stock2.stock, 10)
-        with self.assertRaises(ValueError):
-            instance.add_stock(80)
-        self.assertEqual(stock1.stock, 30)
-        self.assertEqual(stock3.stock, 50)
-        self.assertEqual(stock2.stock, 10)
+            instance.depth = 'AAA'
+
+    def test_dimension_zero(self):
+        instance = self.create_instance()
+        instance.width = 0.0
+        instance.height = 0.0
+        instance.depth = 0.0
+        self.assertEqual(instance.dimension, 0.0)
+
+    def test_dimension_positive(self):
+        instance = self.create_instance()
+        instance.width = 100.0
+        instance.height = 200.0
+        instance.depth = 300.0
+        self.assertEqual(instance.dimension, 6.0)
+
+    def test_calculated_weight__rate_None(self):
+        instance = self.create_instance()
+        instance.weight = 2000.0
+        self.assertEqual(instance.calculated_weight(), 2.0)
+
+    def test_calculated_weight__rate_not_float(self):
+        instance = self.create_instance()
+        instance.weight = 2000.0
+        self.assertEqual(instance.calculated_weight(rate='AAA'), 2.0)
+
+    def test_calculated_weight__rate_minus(self):
+        instance = self.create_instance()
+        instance.weight = 2000.0
+        self.assertEqual(instance.calculated_weight(rate=-2.0), 2.0)
+
+    def test_calculated_weight__dimension_weight_negative(self):
+        instance = self.create_instance()
+        instance.weight = 2000.0
+        instance.width = 50.0
+        instance.height = 100.0
+        instance.depth = 100.0
+        self.assertEqual(instance.calculated_weight(rate=1.0), 2.0)
+
+    def test_calculated_weight__dimension_weight_positive(self):
+        instance = self.create_instance()
+        instance.weight = 2000.0
+        instance.width = 400.0
+        instance.height = 100.0
+        instance.depth = 100.0
+        self.assertEqual(instance.calculated_weight(rate=1.0), 4.0)

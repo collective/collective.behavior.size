@@ -14,20 +14,23 @@ class ISize(Interface):
 
     width = Float(
         title=_(u'Weight'),
-        description=_(u'Weight in centimeter.'))
+        description=_(u'Width in centimeter.'),
+        min=0.0,
+        required=False)
 
     height = Float(
         title=_(u'Height'),
-        description=_(u'Height in centimeter.'))
+        description=_(u'Height in centimeter.'),
+        min=0.0,
+        required=False)
 
     depth = Float(
         title=_(u'Depth'),
-        description=_(u'Depth in centimeter.'))
+        description=_(u'Depth in centimeter.'),
+        min=0.0,
+        required=False)
 
-    size = Attribute('Sum of sizes')
+    dimension = Attribute('Dimemsion in the cube of meter.')
 
-    def sub_size(value):
-        """Decrease size by value and return the result."""
-
-    def add_size(value):
-        """Add size by value and return the result."""
+    def calculated_weight(rate):  # pragma: no cover
+        """Return calculated weight for shipping."""
