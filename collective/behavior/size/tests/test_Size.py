@@ -31,20 +31,34 @@ class TestSize(unittest.TestCase):
         from zope.interface.verify import verifyObject
         self.assertTrue(verifyObject(ISize, instance))
 
-    def test_weight(self):
+    def test__set_size_positive(self):
+        instance = self.create_instance()
+        instance._set_size('aaa', 2.0)
+        self.assertEqual(instance.context.aaa, 2.0)
+
+    def test__set_size__None(self):
         instance = self.create_instance()
         instance.context.weight = 2.0
-        self.assertEqual(instance.weight, 2.0)
+        instance._set_size('weight', None)
+        self.assertEqual(instance.context.weight, 2.0)
+
+    def test__set_size__ValueError(self):
+        instance = self.create_instance()
+        instance.context.weight = 2.0
+        instance._set_size('weight', 'AAA')
+        self.assertEqual(instance.context.weight, 2.0)
+
+    def test__set_size_positive_attribute(self):
+        instance = self.create_instance()
+        instance.context.weight = 2.0
+        instance._set_size('weight', 3.0)
+        self.assertEqual(instance.context.weight, 3.0)
 
     def test_weight_set(self):
         instance = self.create_instance()
+        instance._set_size = mock.Mock()
         instance.weight = 2.0
-        self.assertEqual(instance.context.weight, 2.0)
-
-    def test_weight_set_ValueError(self):
-        instance = self.create_instance()
-        with self.assertRaises(ValueError):
-            instance.weight = 'AAA'
+        instance._set_size.called_with('weight', 2.0)
 
     def test_width(self):
         instance = self.create_instance()
@@ -53,13 +67,9 @@ class TestSize(unittest.TestCase):
 
     def test_width_set(self):
         instance = self.create_instance()
+        instance._set_size = mock.Mock()
         instance.width = 2.0
-        self.assertEqual(instance.context.width, 2.0)
-
-    def test_width_set_ValueError(self):
-        instance = self.create_instance()
-        with self.assertRaises(ValueError):
-            instance.width = 'AAA'
+        instance._set_size.called_with('width', 2.0)
 
     def test_height(self):
         instance = self.create_instance()
@@ -68,13 +78,9 @@ class TestSize(unittest.TestCase):
 
     def test_height_set(self):
         instance = self.create_instance()
+        instance._set_size = mock.Mock()
         instance.height = 2.0
-        self.assertEqual(instance.context.height, 2.0)
-
-    def test_height_set_ValueError(self):
-        instance = self.create_instance()
-        with self.assertRaises(ValueError):
-            instance.height = 'AAA'
+        instance._set_size.called_with('height', 2.0)
 
     def test_depth(self):
         instance = self.create_instance()
@@ -83,13 +89,9 @@ class TestSize(unittest.TestCase):
 
     def test_depth_set(self):
         instance = self.create_instance()
+        instance._set_size = mock.Mock()
         instance.depth = 2.0
-        self.assertEqual(instance.context.depth, 2.0)
-
-    def test_depth_set_ValueError(self):
-        instance = self.create_instance()
-        with self.assertRaises(ValueError):
-            instance.depth = 'AAA'
+        instance._set_size.called_with('height', 2.0)
 
     def test_dimension_zero(self):
         instance = self.create_instance()

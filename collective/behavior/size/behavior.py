@@ -20,6 +20,21 @@ class Size(object):
     def __init__(self, context):
         self.context = context
 
+    def _set_size(self, attr, value):
+        """Setting weight
+
+        :param attr: Name of attribute.
+        :type attr: str
+
+        :param value: Weight in gram.
+        :type value: float
+        """
+        if value is not None:
+            try:
+                setattr(self.context, attr, float(value))
+            except ValueError:
+                logger.warn('The value should be float, but not.')
+
     @getproperty
     def weight(self):
         return getattr(self.context, 'weight', 0.0)
@@ -31,11 +46,7 @@ class Size(object):
         :param value: Weight in gram.
         :type value: float
         """
-        if isinstance(value, float):
-            # Set weight
-            setattr(self.context, 'weight', value)
-        else:
-            raise ValueError('Not Float')
+        self._set_size('weight', value)
 
     @getproperty
     def width(self):
@@ -48,11 +59,7 @@ class Size(object):
         :param value: Weight in gram.
         :type value: float
         """
-        if isinstance(value, float):
-            # Set width
-            setattr(self.context, 'width', value)
-        else:
-            raise ValueError('Not Float')
+        self._set_size('width', value)
 
     @getproperty
     def height(self):
@@ -65,11 +72,7 @@ class Size(object):
         :param value: Weight in gram.
         :type value: float
         """
-        if isinstance(value, float):
-            # Set height
-            setattr(self.context, 'height', value)
-        else:
-            raise ValueError('Not Float')
+        self._set_size('height', value)
 
     @getproperty
     def depth(self):
@@ -82,11 +85,7 @@ class Size(object):
         :param value: Weight in gram.
         :type value: float
         """
-        if isinstance(value, float):
-            # Set depth
-            setattr(self.context, 'depth', value)
-        else:
-            raise ValueError('Not Float')
+        self._set_size('depth', value)
 
     @property
     def dimension(self):

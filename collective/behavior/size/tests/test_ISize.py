@@ -37,7 +37,7 @@ class TestISize(unittest.TestCase):
 
     def test_weight__required(self):
         schema = self.get_schema('weight')
-        self.assertTrue(schema.required)
+        self.assertFalse(schema.required)
 
     def test_width__instance(self):
         schema = self.get_schema('width')

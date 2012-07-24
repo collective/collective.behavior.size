@@ -10,7 +10,8 @@ class ISize(Interface):
     weight = Float(
         title=_(u'Weight'),
         description=_(u'Weight in gram.'),
-        min=0.0)
+        min=0.0,
+        required=False)
 
     width = Float(
         title=_(u'Weight'),
