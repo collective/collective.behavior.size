@@ -1,12 +1,19 @@
 from setuptools import find_packages
 from setuptools import setup
+import os
+
+
+long_description = (
+    open(os.path.join("collective", "behavior", "size", "docs", "README.rst")).read() + "\n" +
+    open(os.path.join("collective", "behavior", "size", "docs", "HISTORY.rst")).read() + "\n" +
+    open(os.path.join("collective", "behavior", "size", "docs", "CONTRIBUTORS.rst")).read())
 
 
 setup(
     name='collective.behavior.size',
     version='0.0',
     description="Behavior of size.",
-    long_description=open("README.rst").read(),
+    long_description=long_description,
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.2",
