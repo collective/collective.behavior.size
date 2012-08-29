@@ -14,7 +14,7 @@ class ISize(Interface):
         required=False)
 
     width = Float(
-        title=_(u'Weight'),
+        title=_(u'Width'),
         description=_(u'Width in centimeter.'),
         min=0.0,
         required=False)
