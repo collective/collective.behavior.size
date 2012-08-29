@@ -1,7 +1,5 @@
 from collective.behavior.size.interfaces import ISize
 from plone.directives import form
-from rwproperty import getproperty
-from rwproperty import setproperty
 from zope.interface import alsoProvides
 from zope.interface import implements
 import logging
@@ -35,11 +33,11 @@ class Size(object):
             except ValueError:
                 logger.warn('The value should be float, but not.')
 
-    @getproperty
+    @property
     def weight(self):
         return getattr(self.context, 'weight', 0.0)
 
-    @setproperty
+    @weight.setter
     def weight(self, value):
         """Setting weight
 
@@ -48,11 +46,11 @@ class Size(object):
         """
         self._set_size('weight', value)
 
-    @getproperty
+    @property
     def width(self):
         return getattr(self.context, 'width', 0.0)
 
-    @setproperty
+    @width.setter
     def width(self, value):
         """Setting width
 
@@ -61,11 +59,11 @@ class Size(object):
         """
         self._set_size('width', value)
 
-    @getproperty
+    @property
     def height(self):
         return getattr(self.context, 'height', 0.0)
 
-    @setproperty
+    @height.setter
     def height(self, value):
         """Setting height
 
@@ -74,11 +72,11 @@ class Size(object):
         """
         self._set_size('height', value)
 
-    @getproperty
+    @property
     def depth(self):
         return getattr(self.context, 'depth', 0.0)
 
-    @setproperty
+    @depth.setter
     def depth(self, value):
         """Setting depth
 
