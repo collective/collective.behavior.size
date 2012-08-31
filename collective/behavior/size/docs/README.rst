@@ -2,7 +2,7 @@
 collective.behavior.size
 ========================
 
-collective.behavior.size provides size related behavior, such as weight and three dimension size, to dexterity content types.
+collective.behavior.size provides size related behavior, such as weight and three dimensional size, to dexterity content types.
 
 Currently Tested with
 ---------------------

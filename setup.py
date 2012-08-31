@@ -10,7 +10,7 @@ long_description = (
 
 
 setup(
-    name='collective.behavior.size',
+    name='Provides size related behavior, such as weight and three dimensional size, to dexterity content types.',
     version='0.0',
     description="Behavior of size.",
     long_description=long_description,
