@@ -10,9 +10,9 @@ long_description = (
 
 
 setup(
-    name='Provides size related behavior, such as weight and three dimensional size, to dexterity content types.',
-    version='0.0',
-    description="Behavior of size.",
+    name='collective.bahavior.size',
+    version='0.1',
+    description="Provides size related behavior, such as weight and three dimensional size, to dexterity content types.",
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",

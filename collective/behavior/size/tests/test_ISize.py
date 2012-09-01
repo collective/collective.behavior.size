@@ -46,7 +46,7 @@ class TestISize(unittest.TestCase):
 
     def test_width__title(self):
         schema = self.get_schema('width')
-        self.assertEqual(schema.title, u'Weight')
+        self.assertEqual(schema.title, u'Width')
 
     def test_width__description(self):
         schema = self.get_schema('width')
