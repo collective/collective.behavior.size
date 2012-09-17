@@ -1,6 +1,3 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -15,36 +12,37 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: collective.behavior.size\n"
+"Domain: DOMAIN\n"
 
 #: ./interfaces.py:29
 msgid "Depth"
-msgstr "Syvyys"
+msgstr ""
 
 #: ./interfaces.py:30
 msgid "Depth in centimeter."
-msgstr "Syvyys sentillä."
+msgstr ""
 
 #: ./interfaces.py:23
 msgid "Height"
-msgstr "Korkeus"
+msgstr ""
 
 #: ./interfaces.py:24
 msgid "Height in centimeter."
-msgstr "Korkeus sentillä."
+msgstr ""
 
 #: ./interfaces.py:11
 msgid "Weight"
-msgstr "Paino"
+msgstr ""
 
 #: ./interfaces.py:12
 msgid "Weight in gram."
-msgstr "Paino grammalla."
+msgstr ""
 
 #: ./interfaces.py:17
 msgid "Width"
-msgstr "Leveys"
+msgstr ""
 
 #: ./interfaces.py:18
 msgid "Width in centimeter."
-msgstr "Leveys sentillä."
+msgstr ""
+

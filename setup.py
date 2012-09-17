@@ -34,7 +34,8 @@ setup(
         'five.grok',
         'hexagonit.testing',
         'plone.behavior',
-        'setuptools'],
+        'setuptools',
+        'zope.i18nmessageid'],
     entry_points="""
     # -*- Entry points: -*-
 
