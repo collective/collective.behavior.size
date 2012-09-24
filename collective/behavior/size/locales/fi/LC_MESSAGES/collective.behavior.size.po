@@ -16,33 +16,32 @@ msgstr ""
 
 #: ./interfaces.py:29
 msgid "Depth"
-msgstr ""
+msgstr "Syvyys"
 
 #: ./interfaces.py:30
 msgid "Depth in centimeter."
-msgstr ""
+msgstr "Syvyys (senttimetri)"
 
 #: ./interfaces.py:23
 msgid "Height"
-msgstr ""
+msgstr "Korkeus"
 
 #: ./interfaces.py:24
 msgid "Height in centimeter."
-msgstr ""
+msgstr "Korkeus (senttimetri)"
 
 #: ./interfaces.py:11
 msgid "Weight"
-msgstr ""
+msgstr "Paino"
 
 #: ./interfaces.py:12
 msgid "Weight in gram."
-msgstr ""
+msgstr "Paino (gramma)"
 
 #: ./interfaces.py:17
 msgid "Width"
-msgstr ""
+msgstr "Leveys"
 
 #: ./interfaces.py:18
 msgid "Width in centimeter."
-msgstr ""
-
+msgstr "Leveys (senttimetri)"
