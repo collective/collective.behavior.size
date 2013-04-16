@@ -1,31 +1,31 @@
 from collective.behavior.size import _
+from plone.supermodel.model import Schema
+from zope import schema
 from zope.interface import Attribute
-from zope.interface import Interface
-from zope.schema import Float
 
 
-class ISize(Interface):
+class ISize(Schema):
     """Interface for Size behavior."""
 
-    weight = Float(
+    weight = schema.Float(
         title=_(u'Weight'),
         description=_(u'Weight in gram.'),
         min=0.0,
         required=False)
 
-    width = Float(
+    width = schema.Float(
         title=_(u'Width'),
         description=_(u'Width in centimeter.'),
         min=0.0,
         required=False)
 
-    height = Float(
+    height = schema.Float(
         title=_(u'Height'),
         description=_(u'Height in centimeter.'),
         min=0.0,
         required=False)
 
-    depth = Float(
+    depth = schema.Float(
         title=_(u'Depth'),
         description=_(u'Depth in centimeter.'),
         min=0.0,

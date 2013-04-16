@@ -2,6 +2,7 @@ from collective.behavior.size.interfaces import ISize
 from plone.autoform.interfaces import IFormFieldProvider
 from zope.interface import alsoProvides
 from zope.interface import implements
+
 import logging
 
 logger = logging.getLogger(__name__)
