@@ -1,5 +1,5 @@
 from collective.behavior.size.interfaces import ISize
-from plone.directives import form
+from plone.autoform.interfaces import IFormFieldProvider
 from zope.interface import alsoProvides
 from zope.interface import implements
 import logging
@@ -7,12 +7,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-alsoProvides(ISize, form.IFormFieldProvider)
+alsoProvides(ISize, IFormFieldProvider)
 
 
 class Size(object):
-    """
-    """
+    """Behavior to add size to content types"""
+
     implements(ISize)
 
     def __init__(self, context):
