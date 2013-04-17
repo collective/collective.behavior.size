@@ -12,7 +12,7 @@ alsoProvides(ISize, IFormFieldProvider)
 
 
 class Size(object):
-    """Behavior to add size to content types"""
+    """Behavior: Size"""
 
     implements(ISize)
 
@@ -86,7 +86,6 @@ class Size(object):
         """
         self._set_size('depth', value)
 
-    @property
     def dimension(self):
         """Dimemsion in the cube of meter.
 
@@ -104,7 +103,7 @@ class Size(object):
         """
         weight_in_kg = self.weight / 1000.0
         if rate and isinstance(rate, float) and rate > 0.0:
-            dimension_weight = self.dimension * rate
+            dimension_weight = self.dimension() * rate
             if dimension_weight > weight_in_kg:
                 return dimension_weight
         return weight_in_kg

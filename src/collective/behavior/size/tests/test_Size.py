@@ -98,14 +98,14 @@ class TestSize(unittest.TestCase):
         instance.width = 0.0
         instance.height = 0.0
         instance.depth = 0.0
-        self.assertEqual(instance.dimension, 0.0)
+        self.assertEqual(instance.dimension(), 0.0)
 
     def test_dimension_positive(self):
         instance = self.create_instance()
         instance.width = 100.0
         instance.height = 200.0
         instance.depth = 300.0
-        self.assertEqual(instance.dimension, 6.0)
+        self.assertEqual(instance.dimension(), 6.0)
 
     def test_calculated_weight__rate_None(self):
         instance = self.create_instance()
