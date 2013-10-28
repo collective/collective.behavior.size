@@ -7,7 +7,7 @@ collective.behavior.size provides size related behavior, such as weight and thre
 Currently Tested with
 ---------------------
 
-* Plone-4.3 with Python-2.7.x [taito]
+* Plone-4.3.2 with Python-2.7.x [taito]
 
 Behavior
 --------
